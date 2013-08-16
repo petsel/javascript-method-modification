@@ -1,5 +1,7 @@
 <!doctype html>
 <html>
+
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -12,114 +14,190 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
+
+
   <body>
     <div class="wrapper">
       <header>
         <h1>javascript-method-modification</h1>
+
         <p></p>
 
-        <p class="view"><a href="https://github.com/petsel/javascript-method-modification">View the Project on GitHub <small>petsel/javascript-method-modification</small></a></p>
+        <p class="view"><a href="https://github.com/petsel/javascript-method-modification">View the Project on GitHub
+          <small>petsel/javascript-method-modification</small>
+        </a></p>
 
 
         <ul>
-          <li><a href="https://github.com/petsel/javascript-method-modification/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/petsel/javascript-method-modification/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/petsel/javascript-method-modification/zipball/master">Download <strong>ZIP
+            File</strong></a></li>
+          <li><a href="https://github.com/petsel/javascript-method-modification/tarball/master">Download <strong>TAR
+            Ball</strong></a></li>
           <li><a href="https://github.com/petsel/javascript-method-modification">View On <strong>GitHub</strong></a></li>
         </ul>
       </header>
       <section>
         <h1>
-<a name="javascript-method-modification" class="anchor" href="#javascript-method-modification"><span class="octicon octicon-link"></span></a>javascript-method-modification</h1>
+          <a name="javascript-method-modification" class="anchor" href="#javascript-method-modification"><span
+            class="octicon octicon-link"></span></a>javascript-method-modification</h1>
 
-<h2>
-<a name="javascript-method-modification---aspect-oriented-function-composition" class="anchor" href="#javascript-method-modification---aspect-oriented-function-composition"><span class="octicon octicon-link"></span></a>JavaScript Method Modification - Aspect Oriented Function Composition</h2>
+        <h2>
+          <a name="javascript-method-modification---aspect-oriented-function-composition" class="anchor"
+             href="#javascript-method-modification---aspect-oriented-function-composition"><span
+            class="octicon octicon-link"></span></a>JavaScript Method Modification - Aspect Oriented Function Composition
+        </h2>
 
-<p>Thoughts about how to adopt the principles of Aspect Oriented Programming to JavaScripts dynamic and functional nature.</p>
+        <p>Thoughts about how to adopt the principles of Aspect Oriented Programming to JavaScripts dynamic and functional
+          nature.</p>
 
-<h2>
-<a name="method-modificationmodifiers---why" class="anchor" href="#method-modificationmodifiers---why"><span class="octicon octicon-link"></span></a>Method Modification/Modifiers - Why?</h2>
+        <h2>
+          <a name="method-modificationmodifiers---why" class="anchor" href="#method-modificationmodifiers---why"><span
+            class="octicon octicon-link"></span></a>Method Modification/Modifiers - Why?</h2>
 
-<ul>
-<li>There are cases where one does not own the code of a method that's functionality has to be modified</li>
-<li>e.g. enriching an existing implementation with additional behavior and influencing the control flow of this new function composition.</li>
-<li>This is the point one is in need of a set of basic <code>AOP</code> inspired method modifiers like <code>Function.prototype</code>[<code>before</code>|<code>after</code>|<code>around</code>]</li>
-<li>Also if one uses Function Based Object/Type Composition patterns like <code>Traits</code> and <code>Mixins</code> with implementations that introduce concurring methods, resolving conflicts can be handled easier by such modifiers.</li>
-</ul><h2>
-<a name="aop-in-javascript---why" class="anchor" href="#aop-in-javascript---why"><span class="octicon octicon-link"></span></a>AOP in JavaScript - Why?</h2>
+        <ul>
+          <li>There are cases where one does not own the code of a method that's functionality has to be modified</li>
+          <li>e.g. enriching an existing implementation with additional behavior and influencing the control flow of this
+            new function composition.
+          </li>
+          <li>This is the point one is in need of a set of basic <code>AOP</code> inspired method modifiers like <code>Function.prototype</code>[<code>before</code>|<code>after</code>|<code>around</code>]
+          </li>
+          <li>Also if one uses Function Based Object/Type Composition patterns like <code>Traits</code> and
+            <code>Mixins</code> with implementations that introduce concurring methods, resolving conflicts can be handled
+            easier by such modifiers.
+          </li>
+        </ul>
+        <h2>
+          <a name="aop-in-javascript---why" class="anchor" href="#aop-in-javascript---why"><span
+            class="octicon octicon-link"></span></a>AOP in JavaScript - Why?</h2>
 
-<p>Basic Modifiers vs True AO Systems</p>
+        <p>Basic Modifiers vs True AO Systems</p>
 
-<p>Pure Method Modifying ...</p>
+        <p>Pure Method Modifying ...</p>
 
-<ul>
-<li>relies on direct access to every possible modifiable method.</li>
-<li>needs to be done explicitly for every identified method .</li>
-<li>lacks abstraction for the 2 last mentioned shortcomings.
+        <ul>
+          <li>relies on direct access to every possible modifiable method.</li>
+          <li>needs to be done explicitly for every identified method .</li>
+          <li>lacks abstraction for the 2 last mentioned shortcomings.
 
-<ul>
-<li>Thus making modularized code reuse of additionally to be wrapped behavior not that handy.</li>
-</ul>
-</li>
-<li>is an appealing approach for less complex tasks.</li>
-<li>should be seen as pre-stage for AO Systems that have to provide both abstraction and support for better code reuse.</li>
-</ul><h2>
-<a name="aop-in-javascript" class="anchor" href="#aop-in-javascript"><span class="octicon octicon-link"></span></a>AOP in JavaScript</h2>
+            <ul>
+              <li>Thus making modularized code reuse of additionally to be wrapped behavior not that handy.</li>
+            </ul>
+          </li>
+          <li>is an appealing approach for less complex tasks.</li>
+          <li>should be seen as pre-stage for AO Systems that have to provide both abstraction and support for better code
+            reuse.
+          </li>
+        </ul>
+        <h2>
+          <a name="aop-in-javascript" class="anchor" href="#aop-in-javascript"><span
+            class="octicon octicon-link"></span></a>AOP in JavaScript</h2>
 
-<p>Thoughts about how to adopt the principles of AOP to JavaScripts dynamic and functional nature.</p>
+        <p>Thoughts about how to adopt the principles of AOP to JavaScripts dynamic and functional nature.</p>
 
-<ul>
-<li>runtime based only and not using any kind of JavaScript "transpilers" or JavaScript build tools for "code weaving" as in e.g. AspectJ.</li>
-<li>thus being forced focusing on what ES3 language core does provide.</li>
-<li>implementation of prototypal method modifiers e.g. <code>around</code>, <code>before</code>, <code>after</code>, <code>afterThrowing</code>, <code>afterReturning</code>, as kind of a minimal AOP influenced base set that already supports library (framework) agnostic modification of function based control flow by just wrapping additional behaviors (advice handlers) around existing methods(functions).</li>
-<li><p>clarify role of <code>Joinpoint</code>, <code>Pointcut</code>, <code>Advice</code> and <code>Aspect</code>; especially from this point of view of what makes them distinct from existing approaches in compiled and/or non dynamic and/or non functional programming languages.</p></li>
-<li><p>no need of a pointcut specific language but methods as filters in order to define pointcuts that access/collect joinpoints.</p></li>
-<li><p>maybe support for accumulating joinpoints in a way similar to a pointcut's definition by just providing a filter method.</p></li>
-<li><p>maybe even consider dropping the AOP paradigm of supporting an "oblivious" system thus allowing to mark/flag methods as joinpoints from within any JavaScript source code - think in ways of e.g. <code>Function.prototype.(un)markJoinpoint</code>.</p></li>
-</ul><hr><h2>
-<a name="joinpoint" class="anchor" href="#joinpoint"><span class="octicon octicon-link"></span></a>Joinpoint</h2>
+        <ul>
+          <li>runtime based only and not using any kind of JavaScript "transpilers" or JavaScript build tools for "code
+            weaving" as in e.g. AspectJ.
+          </li>
+          <li>thus being forced focusing on what ES3 language core does provide.</li>
+          <li>implementation of prototypal method modifiers e.g. <code>around</code>, <code>before</code>,
+            <code>after</code>, <code>afterThrowing</code>, <code>afterReturning</code>, as kind of a minimal AOP influenced
+            base set that already supports library (framework) agnostic modification of function based control flow by just
+            wrapping additional behaviors (advice handlers) around existing methods(functions).
+          </li>
+          <li><p>clarify role of <code>Joinpoint</code>, <code>Pointcut</code>, <code>Advice</code> and <code>Aspect</code>;
+            especially from this point of view of what makes them distinct from existing approaches in compiled and/or non
+            dynamic and/or non functional programming languages.</p></li>
+          <li><p>no need of a pointcut specific language but methods as filters in order to define pointcuts that
+            access/collect joinpoints.</p></li>
+          <li><p>maybe support for accumulating joinpoints in a way similar to a pointcut's definition by just providing a
+            filter method.</p></li>
+          <li><p>maybe even consider dropping the AOP paradigm of supporting an "oblivious" system thus allowing to
+            mark/flag methods as joinpoints from within any JavaScript source code - think in ways of e.g. <code>Function.prototype.(un)markJoinpoint</code>.
+          </p></li>
+        </ul>
+        <hr>
+        <h2>
+          <a name="joinpoint" class="anchor" href="#joinpoint"><span class="octicon octicon-link"></span></a>Joinpoint</h2>
 
-<ul>
-<li>A <code>Joinpoint</code> in JavaScript always needs to feature both a method that is bound to an object and this very object itself (regardless of either this couple is locally scoped or not). One might even think about a label that optionally gets assigned to a joinpoint.</li>
-<li>Thus a joinpoint will be constructed at least from a method's name and this method's target object.</li>
-</ul><h2>
-<a name="pointcut" class="anchor" href="#pointcut"><span class="octicon octicon-link"></span></a>Pointcut</h2>
+        <ul>
+          <li>A <code>Joinpoint</code> in JavaScript always needs to feature both a method that is bound to an object and
+            this very object itself (regardless of either this couple is locally scoped or not). One might even think about
+            a label that optionally gets assigned to a joinpoint.
+          </li>
+          <li>Thus a joinpoint will be constructed at least from a method's name and this method's target object.</li>
+        </ul>
+        <h2>
+          <a name="pointcut" class="anchor" href="#pointcut"><span class="octicon octicon-link"></span></a>Pointcut</h2>
 
-<ul>
-<li>A <code>Pointcut</code> in JavaScript always should be able to return a collection of joinpoints that are filtered according to certain criteria.</li>
-<li>Thus a pointcut explicitly will be constructed from its filter method.</li>
-</ul><h2>
-<a name="advice" class="anchor" href="#advice"><span class="octicon octicon-link"></span></a>Advice</h2>
+        <ul>
+          <li>A <code>Pointcut</code> in JavaScript always should be able to return a collection of joinpoints that are
+            filtered according to certain criteria.
+          </li>
+          <li>Thus a pointcut explicitly will be constructed from its filter method.</li>
+        </ul>
+        <h2>
+          <a name="advice" class="anchor" href="#advice"><span class="octicon octicon-link"></span></a>Advice</h2>
 
-<ul>
-<li>An <code>Advice</code> in JavaScript always should feature both a method that defines behavior (or could be seen as advice handler) and a named qualifier or type e.g. <code>before</code>, <code>after</code>, <code>around</code>(, <code>afterReturning</code>, <code>afterThrowing</code>).</li>
-<li>Thus an advice will be constructed from a qualifier and a method that gets associated with that qualifier.</li>
-</ul><h2>
-<a name="aspect" class="anchor" href="#aspect"><span class="octicon octicon-link"></span></a>Aspect</h2>
+        <ul>
+          <li>An <code>Advice</code> in JavaScript always should feature both a method that defines behavior (or could be
+            seen as advice handler) and a named qualifier or type e.g. <code>before</code>, <code>after</code>,
+            <code>around</code>(, <code>afterReturning</code>, <code>afterThrowing</code>).
+          </li>
+          <li>Thus an advice will be constructed from a qualifier and a method that gets associated with that qualifier.
+          </li>
+        </ul>
+        <h2>
+          <a name="aspect" class="anchor" href="#aspect"><span class="octicon octicon-link"></span></a>Aspect</h2>
 
-<ul>
-<li>An <code>Aspect</code> in JavaScript needs to feature just a sole function that enables folding of advices and pointcuts within it's function body.</li>
-<li>Thus an aspect has to be constructed from a callback function that's first argument is a method that links advices to pointcuts and that's second argument references the AO System itself.</li>
-</ul><h2>
-<a name="additional-notes" class="anchor" href="#additional-notes"><span class="octicon octicon-link"></span></a>Additional Notes</h2>
+        <ul>
+          <li>An <code>Aspect</code> in JavaScript needs to feature just a sole function that enables folding of advices and
+            pointcuts within it's function body.
+          </li>
+          <li>Thus an aspect has to be constructed from a callback function that's first argument is a method that links
+            advices to pointcuts and that's second argument references the AO System itself.
+          </li>
+        </ul>
+        <h2>
+          <a name="additional-notes" class="anchor" href="#additional-notes"><span class="octicon octicon-link"></span></a>Additional
+          Notes</h2>
 
-<ul>
-<li>In order to take advantage of JavaScripts dynamic nature it should be allowed to alter the whole system's control flow at any time from any point e.g.
+        <ul>
+          <li>In order to take advantage of JavaScripts dynamic nature it should be allowed to alter the whole system's
+            control flow at any time from any point e.g.
 
-<ul>
-<li>advices do alter the system's control flow just by calling one of every advices two methods either <code>confirm</code> or <code>deny</code>.</li>
-<li>
-<code>add</code> or <code>remove</code> joinpoints, pointcuts, advices regardless of how many aspects are currently confirmed or denied.</li>
-<li>switching the whole AO System <code>off</code> and <code>on</code> again.</li>
-</ul>
-</li>
-</ul>
+            <ul>
+              <li>advices do alter the system's control flow just by calling one of every advices two methods either <code>confirm</code>
+                or <code>deny</code>.
+              </li>
+              <li>
+                <code>add</code> or <code>remove</code> joinpoints, pointcuts, advices regardless of how many aspects are
+                currently confirmed or denied.
+              </li>
+              <li>switching the whole AO System <code>off</code> and <code>on</code> again.</li>
+            </ul>
+          </li>
+        </ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/petsel">petsel</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+
+        <p>
+          <small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small>
+        </p>
       </footer>
     </div>
+
+    <ul>
+      <li>
+        <a href="./hh.js/2013-08-19/slides/index.html">2013-08-19: slides prepared for the hh.js talk and live demo.</a>
+      </li>
+      <li>
+        <a href="https://github.com/petsel/javascript-method-modification">2013-08-16: this project on GitHub.</a>
+      </li>
+    </ul>
+
     <script src="javascripts/scale.fix.js"></script>
-    
   </body>
+
+
 </html>
