@@ -65,3 +65,8 @@ Thoughts about how to adopt the principles of AOP to JavaScripts dynamic and fun
   - advices do alter the system's control flow just by calling one of every advices two methods either `confirm` or `deny`.
   - `add` or `remove` joinpoints, pointcuts, advices regardless of how many aspects are currently confirmed or denied.
   - switching the whole AO System `off` and `on` again.
+
+
+Go for the slideshow.
+
+- [2013-08-19: slides prepared for the hh.js talk and live demo.](http://petsel.github.io/javascript-method-modification/hh.js/2013-08-19/slides)
