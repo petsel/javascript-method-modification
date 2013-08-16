@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>JavaScript Method Modification - Aspect Oriented Function Composition</title>
+
+    <meta name="description" content="JavaScript Method Modification - Aspect Oriented Function Composition - slides for hh.js - August 19th - Peter Seliger - @petsel (http://twitter.com/petsel)">
+    <meta name="author" content="Peter Seliger">
+    <meta name="generator" content="Reveal.js by Hakim El Hattab (http://hakim.se)">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/simple.css" id="theme"><!--
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">//-->
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <style>
+      /*.reveal pre code {
+        min-height: 500px;
+      }*/
+      .reveal h3 + pre {
+        margin-top: 3em;
+      }
+      .reveal section#cover h1 + h3 {
+        margin-top: .6em;
+      }
+      .reveal section#cover h3 + p {
+        margin-top: 1em;
+      }
+      .reveal section#composition-conflicts h3 + p {
+        margin-top: 2em;
+        text-align: left;
+      }
+      .reveal section blockquote {
+        text-align: left;
+      }
+      .reveal section ul,
+      .reveal section *.list-item-separator {
+        margin-top: .6em;
+      }
+      .reveal section#traits-similar-concepts *.list-item-separator {
+        margin-top: .3em;
+      }
+    </style>
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+
+        <section id="cover">
+          <h1>JavaScript Method Modification</h1>
+          <h3>Aspect Oriented Function Composition</h3>
+          <p>
+            <small>
+              hh.js - August 19th -
+              <a href="https://gist.github.com/petsel/5690543">Peter Seliger</a> /
+              <a href="http://twitter.com/petsel">@petsel</a>
+            </small>
+          </p>
+
+
+          <aside class="notes">
+            <ul>
+              <li>introduce yourself</li>
+              <li>introduce the topic</li>
+              <li>
+                ask questions
+                <ul>
+                  <li>who is mainly FE developer</li>
+                  <li>who is more the backend guy? - node.js?</li>
+                  <li>who does even both?</li>
+                  <li>who has an idea about what AOP deals with?</li>
+                  <li>who is really clueless about today's topic?</li>
+                </ul>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+
+        <section>
+          <h2>Agenda</h2>
+          <ul>
+            <li class="fragment">Method Modification/Modifiers - Why?</li>
+            <li class="fragment">Aspect Oriented Programming (AOP) in JavaScript - Why?</li>
+            <li class="fragment">Basic Method Modifiers vs True Aspect Oriented Systems.</li>
+            <li class="fragment">Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature.</li>
+            <li class="fragment"><code>Joinpoint</code>, <code>Pointcut</code>, <code>Advice</code> and <code>Aspect</code> from a JavaScript Point of View.</li>
+            <li class="fragment">Additional Features that could be provided.</li>
+            <li class="fragment">API of an already operating AO System (sneak preview).</li>
+            <li class="fragment">Live Demo</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <section>
+            <h2>Method Modification/Modifiers</h2>
+          </section>
+
+
+          <section>
+            <h3>Method Modification/Modifiers - Why?</h3>
+
+            <ul>
+              <li class="fragment list-item-separator">
+                There are cases where one does not own the code of a method that's functionality has to be modified ...
+              </li>
+              <li class="fragment"><!--
+                e.g. enriching an existing implementation with additional behavior together with steering the control flow of this new function composition.//-->
+                e.g. enriching an existing implementation with additional behavior and influencing the control flow of this new
+                <em><a href="http://en.wikipedia.org/wiki/Function_composition_(computer_science)">function composition</a></em>.
+              </li>
+              <li class="fragment list-item-separators">
+                This is the point one is in need of a set of basic AOP inspired method modifiers like
+                <ul>
+                  <li class="fragment">
+                    <code>Function.prototype[</code><span class="fragment"><code>before</code></span><span class="fragment"><code>|after</code></span><span class="fragment"><code>|around</code></span><code>]</code>
+                  </li>
+                </ul>
+              </li>
+              <li class="fragment list-item-separator">
+                Also if one uses <a href="http://petsel.github.io/javascript-code-reuse-patterns/berlin.js/2013-05-16/slides/#/cover">Function Based Object/Type Composition</a> patterns
+                <span class="fragment">
+                  like <a href="http://petsel.github.io/javascript-code-reuse-patterns/berlin.js/2013-05-16/slides/#/3"><code>Traits</code> and <code>Mixins</code></a> ...
+                </span>
+              </li>
+              <li class="fragment"><!--
+                with implementations that introduce concurring/identical methods//-->
+                with implementations that introduce concurring methods,
+              </li>
+              <li class="fragment">
+                <em><a href="http://petsel.github.io/javascript-code-reuse-patterns/berlin.js/2013-05-16/slides/#/composition-conflicts">resolving conflicts</a></em> can be handled easier by such modifiers.
+              </li>
+            </ul>
+
+
+            <aside class="notes">
+              <ul>
+                <li>
+                  Who was ever in need to add stuff to code one does not own?
+                </li>
+                <li>
+                  How about then enriching such closed functionality with own behavior?
+                </li>
+                <li>
+                  And even having the wish of altering the control flow of own and not owned code?
+                </li>
+                <li>
+                  Who does Trait/Mixin based object composition?
+                </li>
+                <li>
+                  And has ever introduced concurring/identical methods then?
+                </li>
+                <li>
+                  And then again was looking for how to resolve such conflicts?
+                </li>
+              </ul>
+            </aside>
+          </section>
+
+
+          <section>
+            <h5>Method Modification/Modifiers - Why?</h5>
+
+            example - enriching an existing implementation with additional behavior and influencing its control flow.
+            <pre>
+              <code data-trim contenteditable class="javascript">
+
+var requestBasketUpdate = function (evt, onSuccess) {
+
+  var
+    control   = evt.target,
+    form      = control.form
+  ;
+  showMiniBasket();
+
+  LightboxController.switchOnLoadingState();
+  $.ajax({
+
+    cache    : false,
+    url      : form.action,
+    type     : form.method.toUpperCase(),
+    data     : $(form).serialize(),
+    dataType : "text",
+
+    success  : onSuccess.before(
+      LightboxController.switchOffLoadingState
+    ).after(function () {
+      timeoutIdMiniBasket = set_timeout(hideMiniBasket, 60000);
+    }),
+
+    error: reloadCurrentPage
+  });
+};
+
+              </code>
+            </pre>
+          </section>
+
+
+          <section>
+            <h5>Method Modification/Modifiers</h5>
+            <h3><code>Function.prototype.before</code></h3>
+
+            <pre>
+              <code data-trim contenteditable class="javascript">
+
+Function.prototype.before = function (behaviorBefore, target) {
+  var proceedAfter = this;
+
+  return function () {
+    var args = arguments;
+
+    behaviorBefore.apply(target, args);
+    return proceedAfter.apply(target, args);
+  };
+};
+
+
+
+var hi = function () {console.log("hi");};
+var ho = function () {console.log("ho");};
+
+hi(); // "hi"
+ho(); // "ho"
+
+var hohi = hi.before(ho);
+var hiho = ho.before(hi);
+
+hohi(); // "ho", "hi"
+hiho(); // "hi", "ho"
+
+              </code>
+            </pre>
+          </section>
+
+
+          <section>
+            <h5>Method Modification/Modifiers</h5>
+            <h3><code>Function.prototype.after</code></h3>
+
+            <pre>
+              <code data-trim contenteditable class="javascript">
+
+Function.prototype.after = function (behaviorAfter, target) {
+  var proceedBefore = this;
+
+  return function () {
+    var args = arguments;
+
+    proceedBefore.apply(target, args);
+    return behaviorAfter.apply(target, args);
+  };
+};
+
+
+
+var he = function () {console.log("he");};
+
+he(); // "he"
+ho(); // "ho"
+
+var heho = he.after(ho);
+var hohe = ho.after(he);
+
+heho(); // "he", "ho"
+hohe(); // "ho", "he"
+
+              </code>
+            </pre>
+          </section>
+
+
+          <section>
+            <h5>Method Modification/Modifiers</h5>
+            <h3><code>Function.prototype.around</code></h3>
+
+            <pre>
+              <code data-trim contenteditable class="javascript">
+
+Function.prototype.around = function (behaviorAround, target) {
+  var proceedEnclosed = this;
+
+  return function () {
+    return behaviorAround.call(target, proceedEnclosed,
+                behaviorAround, arguments, target);
+  };
+};
+
+
+
+var hehiho = hi.around(function (proceed, around, args, target) {
+
+  he();
+  proceed();
+  ho();
+
+  console.log("proceed : ", proceed);
+  console.log("around : ", around);
+  console.log("args : ", args);
+  console.log("target : ", target);
+
+  console.log("this : ", this);
+});
+
+hehiho("t", "e", "s", "t");
+
+// he
+// hi
+// ho
+//
+// proceed :  function () {console.log("hi");}
+// around :  function (proceed, around, args, target) {
+//
+// he();
+// proceed();
+// ho();
+//
+// console.log("proceed : ", proceed);
+// console.log("around : ", around);
+// console.log("args : ", args);
+// console.log("target : ", target);
+//
+// console.log("this : ", this);
+// }
+// args :  ["t", "e", "s", "t"]
+// target :  undefined
+// this : Window {top: Window, window: Window, location: Location, external: Object, chrome: Object…}
+
+              </code>
+            </pre>
+          </section>
+
+<!--
+          <aside class="notes">
+            ADDITIONAL NOTES TO BE PLACED INTO HERE IF THERE IS NEED OF IT
+          </aside>
+//-->
+        </section>
+
+
+        <section>
+          <section>
+            <h2>Aspect Oriented Programming in JavaScript</h2>
+          </section>
+
+
+          <section>
+            <h3>Aspect Oriented Programming (AOP) in JavaScript - Why?</h3>
+
+
+            <aside class="notes">
+              <ul>
+                <li>Who does evented programming (PubSub, EventEmitter, MessageBus)?</li>
+                <li>For how long?</li>
+                <li>What was the code looking before an abstraction of this kind of loose coupling became JS programming standard?</li>
+                <li>Like callback hell?</li>
+              </ul>
+            </aside>
+          </section>
+
+
+          <section>
+            <h5>Aspect Oriented Programming (AOP) in JavaScript - Why?</h5>
+            <h3>Basic Modifiers vs True AO Systems</h3><!--
+
+            <p>Pure Method Modifying obviously ...</p>//-->
+            <ul>
+              <li>Pure Method Modifying ...</li>
+              <li class="fragment list-item-separator">relies on direct access to every possible modifiable method.</li>
+              <li class="fragment">needs to be done explicitly for every identified method .</li>
+              <li class="fragment">
+                lacks abstraction for the 2 last mentioned shortcomings.
+                <ul><!--
+                  <li class="fragment">Thus making modularized code reuse of additionally to be wrapped behavior not that handy/manageable.</li>//-->
+                  <li class="fragment">Thus making modularized code reuse of additionally to be wrapped behavior not that handy.</li>
+                </ul>
+              </li><!--
+              <li class="fragment list-item-separator">is a perfect solution for less complex tasks.</li>//-->
+              <li class="fragment list-item-separator">is an appealing approach for less complex tasks.</li>
+              <li class="fragment">should be seen as pre-stage for AO Systems that have to provide both abstraction and support for better code reuse.</li>
+            </ul>
+
+
+            <aside class="notes">
+              <ul>
+                <li>Why did I bring up Event Systems versus Callback Hell as example ...</li>
+                <li>... because with Pure Method Modifying we miss a higher level of abstraction too.</li>
+                <li>e.g how to access not only one but a whole bunch of possible modifiable methods ...</li>
+                <li>... that all shall feature one and the same new functionality?</li>
+              </ul>
+            </aside>
+          </section>
+
+
+          <section>
+            <h5>Aspect Oriented Programming in JavaScript</h5>
+            <h3>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h3>
+
+            <ul>
+              <li class="fragment">runtime based only and not using any kind of JavaScript "transpilers" or JavaScript build tools for "code weaving" as in e.g. AspectJ.</li>
+              <li class="fragment">thus being forced focusing on what ES3 language core does provide.</li>
+            </ul>
+
+
+            <aside class="notes">
+              <ul>
+                <li>Short excursus into AOP according to AspectJ ?</li>
+                <li>Pointcut Language and Bytecode Waeving.</li>
+              </ul>
+            </aside>
+          </section>
+
+
+          <section>
+            <h5>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h5>
+
+            <ul>
+              <li>
+                implementation of prototypal method modifiers e.g. <code>around</code>, <code>before</code>, <code>after</code>, <code>afterThrowing</code>, <code>afterReturning</code>,
+                <span class="fragment">as kind of a minimal AOP influenced base set that already supports library (framework) agnostic modification of function based control flow</span>
+                <span class="fragment">by just wrapping additional behaviors (advice handlers) around existing methods(functions).</span>
+              </li>
+              <li class="fragment">
+                clarify role of <code>Joinpoint</code>, <code>Pointcut</code>, <code>Advice</code> and <code>Aspect</code>;
+                <span class="fragment">
+                  especially from this point of view of what makes them distinct from existing approaches in compiled and/or non dynamic and/or non functional programming languages.
+                </span>
+              </li>
+            </ul>
+
+
+            <aside class="notes">
+              <ul>
+                <li>library or framework agnostic modification of function based control flow.</li>
+                <li>this can be achieved by implementing prototypal method modifiers ...</li>
+                <li>... that do wrap additional behavior around existing functions.</li>
+              </ul>
+            </aside>
+          </section>
+
+
+          <section>
+            <h5>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h5>
+
+            example code (will be explained)
+            <pre>
+              <code data-trim contenteditable class="javascript">
+
+// [VariationsController] depended method modification
+SubmitController.isAnyToSubmit = SubmitController.isAnyToSubmit
+  .around(function (isAnyToSubmit, interceptor, args, target) {
+
+    var evt = args[0];
+    evt.isColorChanged = true;
+
+    return isAnyToSubmit.call(target, evt); // proceed
+  })
+;
+
+// [SubmitController] specific functionality
+SubmitController.isAnyToSubmit = function (evt) {
+  var isChecked =
+    evt.isColorChanged
+    || sizeRadioInputs.toArray().some(function (elm/*, idx, arr*/) {
+
+      return elm.checked;
+    })
+  ;
+  if (isChecked) {
+  /*
+    ... submit specific stuff ...
+  */
+  }
+  return isChecked;
+};
+
+              </code>
+            </pre>
+          </section>
+
+
+          <section>
+            <h5>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h5>
+            <h3>Joinpoint</h3>
+
+            <ul>
+              <li class="fragment">
+                A <code>Joinpoint</code> in JavaScript always needs to feature both a method that is bound to an object
+                and this very object itself (regardless of either this couple is locally scoped or not). One might even
+                think about a label that optionally gets assigned to a joinpoint.
+              </li>
+              <li class="fragment">
+                Thus a joinpoint will be constructed at least from a method's name and this method's target object.
+              </li>
+            </ul>
+
+            <pre class="fragment">
+              <code data-trim contenteditable class="javascript">
+
+/*var jpIsAnyToSubmit = */ao.Joinpoint.add({
+  target      : SubmitController
+  methodName  : "isAnyToSubmit",
+//label       : "controllers.SubmitController.isAnyToSubmit",
+});
+
+              </code>
+            </pre>
+          </section>
+
+
+          <section>
+            <h5>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h5>
+            <h3>Pointcut</h3>
+
+            <ul>
+              <li class="fragment">
+                A <code>Pointcut</code> in JavaScript always should be able to return a
+                <em>collection of joinpoints</em> that are filtered according to certain criteria.
+              </li>
+              <li class="fragment">
+                Thus a pointcut explicitly will be constructed from its filter method.
+              </li>
+            </ul>
+
+            <pre class="fragment">
+              <code data-trim contenteditable class="javascript">
+
+var pcIsAnyToSubmit = ao.Pointcut.add({
+//id      : "isAnyToSubmit", // if omitted UUID will be generated
+  filter  : function (jp) {
+    return (jp.getMethodName() == "isAnyToSubmit");
+
+  //return (jp.getLabel().indexOf("...") >= 0);
+  //return (jp.getTarget() === ...);
+  }
+});
+
+              </code>
+            </pre>
+          </section>
+
+
+          <section>
+            <h5>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h5>
+            <h3>Advice</h3>
+
+            <ul>
+              <li class="fragment">
+                An Advice in JavaScript always should feature both a method that defines behavior
+                (or could be seen as advice handler) and a named qualifier or type.<!-- like <code>"around"</code>,
+                <code>"before"</code>, <code>"after"</code>, <code>"afterThrowing"</code>, <code>"afterReturning"</code>.//-->
+              </li>
+              <li class="fragment">
+                Thus an advice will be constructed from a qualifier and a method that gets associated with that qualifier.
+              </li>
+            </ul>
+
+            <pre class="fragment">
+              <code data-trim contenteditable class="javascript">
+
+var avColorChangedVariant = ao.Advice.add({
+//id      : "colorChangedVariant", // if omitted UUID will be generated
+  type    : "around",
+  handler : function (proceed, handler, args, target/*, joinpoint*/) {
+    var evt = args[0];
+    evt.isColorChanged = true;
+    return proceed.call(target, evt);
+  }
+});
+
+              </code>
+            </pre>
+          </section>
+
+
+          <section>
+            <h5>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h5>
+            <h3>Aspect</h3>
+
+            <ul>
+              <li class="fragment">
+                An <code>Aspect</code> in JavaScript needs to feature just a sole function
+                that enables folding of advices and pointcuts within it's function body.
+              </li>
+              <li class="fragment">
+                Thus an aspect has to be constructed from a callback function that's
+                first argument is a method that links advices to pointcuts and that's
+                second argument references the AO System itself.
+              </li>
+            </ul>
+
+            <pre class="fragment">
+              <code data-trim contenteditable class="javascript">
+
+var asColorChangedVariant = ao.Aspect.add({
+//id      : "colorChangedVariant", // if omitted UUID will be generated
+  handler : function (linkAdviceToPointcut, ao) {
+    linkAdviceToPointcut(avColorChangedVariant, pcIsAnyToSubmit);
+  }
+});
+
+              </code>
+            </pre><!--
+            <pre class="fragment">
+              <code data-trim contenteditable class="javascript">
+
+var asColorChangedVariant = ao.Aspect.add({
+  handler : function (fold, ao) {
+    fold(
+      ao.Advice.getById("colorChangedVariant"),
+      ao.Pointcut.getById("isAnyToSubmit"
+    );
+  }
+});
+
+              </code>
+            </pre>//-->
+          </section>
+
+
+          <section>
+            <h5>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h5>
+            <h3>Additional Notes</h3>
+
+            <ul>
+              <li class="fragment">
+                In order to take advantage of JavaScripts dynamic nature
+                it should be allowed to alter the whole system's control flow
+                at any time from any point e.g.
+                <ul>
+                  <li class="fragment">
+                    advices do alter the system's control flow just by calling
+                    one of every advices two methods either <code>confirm</code>
+                    or <code>deny</code><!-- / <code>reject</code>//-->.
+                  </li>
+                  <li class="fragment">
+                    add or remove joinpoints, pointcuts, advices regardless of
+                    how many aspects are currently <em>confirmed</em> or <em>denied</em>.
+                  </li>
+                  <li class="fragment">
+                    switching the whole AO System <code>off</code> and <code>on</code> again.
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h5>Thoughts about how to adopt the Principles of AOP to JavaScripts Dynamic and Functional Nature</h5>
+            <h3><code>»modification.ao«</code></h3>
+            <h5>( just in order to get a glimpse of its API )</h5>
+
+            <pre>
+              <code data-trim contenteditable class="javascript">
+
+var ao = require("modification.ao") // aspect oriented system
+
+// static properties
+
+ao.Joinpoint                // [Object] // module
+ao.Pointcut                 // [Object] // module
+ao.Advice                   // [Object] // module
+ao.Aspect                   // [Object] // module
+
+// static methods
+
+ao.isOff                    // [Function]:true|false
+ao.isOn                     // [Function]:true|false
+ao.off                      // [Function]:void
+ao.on                       // [Function]:void
+ao.reboot                   // [Function]:void
+
+
+ao.Joinpoint.add            // [Function]:[Joinpoint]|undefined|false
+ao.Joinpoint.remove         // [Function]:[Joinpoint]|undefined|false
+ao.Joinpoint.isJoinpoint    // [Function]:true|false
+ao.Joinpoint.isJoinpointLike// [Function]:true|false
+
+ao.Pointcut.getById         // [Function]:[Pointcut]|undefined
+ao.Pointcut.add             // [Function]:[Pointcut]|undefined|false
+ao.Pointcut.remove          // [Function]:[Pointcut]|undefined|false
+ao.Pointcut.isPointcut      // [Function]:true|false
+ao.Pointcut.isPointcutLike  // [Function]:true|false
+
+ao.Advice.getById           // [Function]:[Advice]|undefined
+ao.Advice.add               // [Function]:[Advice]|undefined|false
+ao.Advice.remove            // [Function]:[Advice]|undefined|false
+ao.Advice.isAdvice          // [Function]:true|false
+ao.Advice.isAdviceLike      // [Function]:true|false
+
+ao.Aspect.getById           // [Function]:[Aspect]|undefined
+ao.Aspect.add               // [Function]:[Aspect]|undefined|false
+ao.Aspect.remove            // [Function]:[Aspect]|undefined|false
+ao.Aspect.isAspect          // [Function]:true|false
+ao.Aspect.isAspectLike      // [Function]:true|false
+
+
+// instance methods
+
+var jp = ao.Joinpoint.add(/*config:{
+
+  target      :[Object],    // required
+  methodName  :string,      // required
+//label       :string       // optional
+
+}*/);                       // :[Joinpoint]|undefined|false
+
+jp.getLabel                 // [Function]:string
+jp.getTarget                // [Function]:[Object]
+jp.getMethodName            // [Function]:string
+jp.getBaseMethod            // [Function]:[Function]
+jp.equals                   // [Function]:true|false
+
+
+var pc = ao.Pointcut.add(/*config{
+
+//id      :string,          // if omitted UUID will be generated
+  filter  :[Function]       // a joinpoint filter is required
+
+}*/);                       // :[Pointcut]|undefined|false
+
+pc.getId                    // [Function]:string
+pc.getFilter                // [Function]:[Function]
+pc.getJoinpoints            // [Function]:[Array:[Joinpoint]]
+pc.equals                   // [Function]:true|false
+
+
+var av = ao.Advice.add(/*config{
+
+//id      :string,          // if omitted UUID will be generated
+  type    :string,          // required: valid quantifier / type
+  handler :[Function]       // required: behavior / advice handler
+
+}*/);                       // :[Advice]|undefined|false
+
+av.getId                    // [Function]:string
+av.getType                  // [Function]:string("after"..."before")
+av.getHandler               // [Function]:[Function]
+av.equals                   // [Function]:true|false
+
+
+var as = ao.Aspect.add(/*config{
+
+//id      :string,          // if omitted UUID will be generated
+  handler :[Function]       // required: "callback" function that
+                            //           links advices to pointcuts
+
+}*/);                       // :[Aspect]|undefined|false
+
+as.getId                    // [Function]:string
+as.getHandler               // [Function]:[Function]
+as.getLinkList              // [Function]:[Array:[Advice][Pointcut]]
+as.isReconfirm              // [Function]:true|false
+as.isConfirmed              // [Function]:true|false
+as.isDenied                 // [Function]:true|false
+as.confirm                  // [Function]:void
+as.deny                     // [Function]:void
+as.equals                   // [Function]:true|false
+
+              </code>
+            </pre>
+          </section>
+
+<!--
+          <aside class="notes">
+            ADDITIONAL NOTES TO BE PLACED INTO HERE IF THERE IS NEED OF IT
+          </aside>
+//-->
+        </section>
+
+
+        <section>
+          <h5>Questions?</h5>
+          <h5 class="fragment">Live Demo</h5>
+          <h3 class="fragment">Thank You</h3>
+        </section>
+
+
+      </div><!-- class="slides" //-->
+
+    </div><!-- class="reveal" //-->
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+//        { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+//        { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
