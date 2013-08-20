@@ -69,7 +69,7 @@ Thoughts about how to adopt the principles of AOP to JavaScripts dynamic and fun
 
 Go for the slideshow.
 
-- [2013-08-19: slides prepared for the hh.js talk and live demo.](http://petsel.github.io/javascript-method-modification/hh.js/2013-08-19/slides)
+- [2013-08-19: slides prepared for the hh.js talk and live demo.](http://petsel.github.io/javascript-method-modification/hh.js/2013-08-19/slides/)
 - [2013-08-19: gist code for logging demo](https://gist.github.com/petsel/5690543)
 
 - [implementation of "the modification.ao" module](https://github.com/petsel/composable/blob/master/src/modification/modification.ao.js)
