@@ -69,6 +69,7 @@ Thoughts about how to adopt the principles of AOP to JavaScripts dynamic and fun
 
 Go for the slideshow.
 
+- [2013-10-29: refactored slides for webtechconf in Munich.](http://petsel.github.io/javascript-method-modification/talk/slides/)
 - [2013-08-19: slides prepared for the hh.js talk and live demo.](http://petsel.github.io/javascript-method-modification/hh.js/2013-08-19/slides/)
 - [2013-08-19: gist code for logging demo](https://gist.github.com/petsel/5690543)
 
